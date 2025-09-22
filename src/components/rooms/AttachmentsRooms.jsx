@@ -27,7 +27,9 @@ function AttachmentsRooms({ id }) {
             </button>
 
             <h2 className="text-xl font-bold mb-4 text-center">QR Code</h2>
-            <QRCode value={`http://localhost:3000/rooms/${id}`} />
+            <QRCode
+              value={`https://hospital-system-kafaat.vercel.app/rooms/${id}`}
+            />
           </div>
         </div>
       )}
