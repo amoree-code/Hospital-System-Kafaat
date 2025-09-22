@@ -115,7 +115,7 @@ export default function UpdateRooms({ room, refetch }) {
               onChange={handleChange}
             />
           </div>
-
+          {/* 
           <div className="grid gap-2">
             <Label htmlFor="numberOfBeds">عدد الأسرة</Label>
             <Input
@@ -125,9 +125,9 @@ export default function UpdateRooms({ room, refetch }) {
               value={formData.numberOfBeds}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
 
-          <div className="grid gap-2">
+          {/* <div className="grid gap-2">
             <Label htmlFor="note">الملاحظات</Label>
             <Input
               id="note"
@@ -135,7 +135,7 @@ export default function UpdateRooms({ room, refetch }) {
               value={formData.note}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
 
           <DialogFooter>
             <DialogClose asChild>

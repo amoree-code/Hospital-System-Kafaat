@@ -45,11 +45,11 @@ function QrItems() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-center">
-              الغرفة: {room.name} (رقم {room.roomNumber})
+              الغرفة: {room.name} ( رقم {room.roomNumber} )
             </CardTitle>
-            <CardDescription className="text-center">
+            {/* <CardDescription className="text-center">
               عدد الأسرة: {room.numberOfBeds} — {room.note || "بدون ملاحظات"}
-            </CardDescription>
+            </CardDescription> */}
           </CardHeader>
         </Card>
 

@@ -107,7 +107,7 @@ export default function AddItems({ refetch }) {
             />
           </div>
 
-          {/* <div className="grid gap-2">
+          <div className="grid gap-2">
             <Label htmlFor="quantity">العدد</Label>
             <Input
               id="quantity"
@@ -117,16 +117,23 @@ export default function AddItems({ refetch }) {
               onChange={handleChange}
               required
             />
-          </div> */}
+          </div>
 
           <div className="grid gap-2">
             <Label htmlFor="price">السعر</Label>
             <Input
               id="price"
               name="price"
-              type="number"
-              value={formData.price}
-              onChange={handleChange}
+              type="text" // نصي للسماح بالفواصل
+              value={formData.price.toLocaleString()} // عرض القيمة مع فواصل
+              onChange={(e) => {
+                // إزالة أي فواصل قبل التحديث
+                const value = e.target.value.replace(/,/g, "");
+                // تحديث state كرقم
+                if (!isNaN(value)) {
+                  setFormData((prev) => ({ ...prev, price: Number(value) }));
+                }
+              }}
               required
             />
           </div>

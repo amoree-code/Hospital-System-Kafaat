@@ -5,6 +5,8 @@ import QRCode from "react-qr-code";
 function AttachmentsRooms({ id }) {
   const [open, setOpen] = useState(false);
 
+  const qrValue = `${window.location.origin}/rooms/${id}`;
+
   return (
     <>
       <button
@@ -27,9 +29,7 @@ function AttachmentsRooms({ id }) {
             </button>
 
             <h2 className="text-xl font-bold mb-4 text-center">QR Code</h2>
-            <QRCode
-              value={`https://hospital-system-kafaat.vercel.app/rooms/${id}`}
-            />
+            <QRCode value={qrValue} />
           </div>
         </div>
       )}

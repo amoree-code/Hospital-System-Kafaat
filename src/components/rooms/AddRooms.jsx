@@ -101,7 +101,7 @@ export default function AddRooms({ refetch }) {
               required
             />
           </div>
-          {/* 
+
           <div className="grid gap-2">
             <Label htmlFor="managerName">اسم المدير</Label>
             <Input
@@ -110,9 +110,9 @@ export default function AddRooms({ refetch }) {
               value={formData.managerName}
               onChange={handleChange}
             />
-          </div> */}
+          </div>
 
-          <div className="grid gap-2">
+          {/* <div className="grid gap-2">
             <Label htmlFor="note">ملاحظات</Label>
             <Input
               id="note"
@@ -120,9 +120,9 @@ export default function AddRooms({ refetch }) {
               value={formData.note ?? "-"}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
 
-          <div className="grid gap-2">
+          {/* <div className="grid gap-2">
             <Label htmlFor="numberOfBeds">عدد الأسرة</Label>
             <Input
               id="numberOfBeds"
@@ -132,7 +132,7 @@ export default function AddRooms({ refetch }) {
               onChange={handleChange}
               min={0}
             />
-          </div>
+          </div> */}
 
           <DialogFooter>
             <DialogClose asChild>

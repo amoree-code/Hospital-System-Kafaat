@@ -28,9 +28,9 @@ function TableRooms({ data, refetch }) {
           {/* <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
             الملاحظات
           </TableHead> */}
-          <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
+          {/* <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
             عدد الأسرة
-          </TableHead>
+          </TableHead> */}
           <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
             الإجراءات
           </TableHead>
@@ -51,9 +51,9 @@ function TableRooms({ data, refetch }) {
             {/* <TableCell className="px-6 py-4 text-center">
               {room.note || "-"}
             </TableCell> */}
-            <TableCell className="px-6 py-4 text-center">
+            {/* <TableCell className="px-6 py-4 text-center">
               {room.numberOfBeds}
-            </TableCell>
+            </TableCell> */}
             <TableCell className="px-6 py-4 text-center">
               <div className="flex justify-center items-center gap-2">
                 <UpdateRooms room={room} refetch={refetch} />
