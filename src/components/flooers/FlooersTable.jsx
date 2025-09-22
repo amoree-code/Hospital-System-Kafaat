@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Deleteflooers from "@/components/flooers/DeleteFlooers";
-import Updatedflooers from "@/components/flooers/Updatedflooers";
+import Updatedflooers from "@/components/flooers/UpdatedFlooers";
 import Attachmentsflooers from "@/components/flooers/AttachmentsFlooers";
 
 function FlooersTable({ data, refetch }) {
