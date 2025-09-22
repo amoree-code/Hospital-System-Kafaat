@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Deleteflooers from "@/components/flooers/Deleteflooers";
+import Deleteflooers from "@/components/flooers/DeleteFlooers";
 import Updatedflooers from "@/components/flooers/Updatedflooers";
 import Attachmentsflooers from "@/components/flooers/AttachmentsFlooers";
 
