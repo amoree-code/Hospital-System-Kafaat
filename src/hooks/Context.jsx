@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+
 export const Context = createContext(null);
 export const ContextProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token") || null);

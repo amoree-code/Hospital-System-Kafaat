@@ -9,11 +9,19 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useAxios } from "@/hooks/useAxios";
 import { Trash2 } from "lucide-react";
 
-export default function DeleteDashboard() {
-  const handleDelete = () => {
-    console.log("تم حذف المستخدم:");
+export default function Deleteflooers({ id, refetch }) {
+  const axios = useAxios();
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/floor/${id}`);
+      refetch();
+    } catch (error) {
+      console.error("Error deleting floor:", error);
+    }
   };
   return (
     <Dialog>
@@ -27,20 +35,13 @@ export default function DeleteDashboard() {
           <DialogTitle>تأكيد الحذف</DialogTitle>
           <DialogDescription>
             هل أنت متأكد من حذف المستخدم؟ هذا الإجراء لا يمكن التراجع عنه.
-            {/* هل أنت متأكد من حذف المستخدم /"{userName}"؟ هذا الإجراء لا يمكن
-            التراجع عنه. */}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline">إلغاء</Button>
+            <Button variant="secondary">إلغاء</Button>
           </DialogClose>
-          <Button
-            className="bg-red-600 hover:bg-red-700"
-            onClick={handleDelete}
-          >
-            حذف
-          </Button>
+          <Button onClick={handleDelete}>حذف</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

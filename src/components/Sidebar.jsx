@@ -1,109 +1,93 @@
-import React, { useState } from "react";
-import {
-  Home,
-  Users,
-  FileText,
-  Settings,
-  BarChart3,
-  Mail,
-  Calendar,
-  Database,
-  Shield,
-  LogOut,
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Home, Users, Shield, LogOut, FileText } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function Sidebar() {
-  const [active, setActive] = useState("dashboard");
+  const navigate = useNavigate();
+  const location = useLocation(); // Get current path
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
+  const navItems = [
+    {
+      name: "flooers",
+      label: "الطوابق",
+      icon: <Home className="h-5 w-5" />,
+      path: "/",
+    },
+    {
+      name: "rooms",
+      label: "الغرف",
+      icon: <Users className="h-5 w-5" />,
+      path: "/rooms",
+    },
+    {
+      name: "items",
+      label: "الأصناف",
+      icon: <FileText className="h-5 w-5" />,
+      path: "/items",
+    },
+    {
+      name: "users",
+      label: "المستخدمون",
+      icon: <Shield className="h-5 w-5" />,
+      path: "/users",
+    },
+  ];
+
+  const getActiveName = () => {
+    if (location.pathname === "/") return "flooers";
+    return location.pathname.slice(1);
+  };
+
+  const active = getActiveName();
 
   return (
-    <div className="w-64 h-screen border-r border-gray-200 bg-white relative">
-      {/* Header */}
+    <div className="w-64 h-screen border-r border-gray-200 bg-white relative shadow-lg">
       <div className="p-6 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Application</h2>
+        <h2 className="text-lg font-semibold text-gray-900">
+          نظام مستشفى الكفاة
+        </h2>
       </div>
 
-      {/* Navigation */}
       <nav className="p-4">
         <ul className="space-y-3">
-          <Link to="/">
-            <button
-              onClick={() => setActive("dashboard")}
-              className={`
-                w-full flex gap-2 items-center px-3 py-2 text-sm font-medium rounded-md
-                ${
-                  active === "dashboard"
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                }
-              `}
-            >
-              <Home className="mr-4 h-4 w-4" />
-              Dashboard
-            </button>
-          </Link>
-
-          <Link to="/users" className="">
-            <button
-              onClick={() => setActive("users")}
-              className={`
-                w-full flex gap-2 items-center mt-1 px-3 py-2 text-sm font-medium rounded-md
-                ${
-                  active === "users"
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                }
-              `}
-            >
-              <Users className="mr-4 h-4 w-4" />
-              Users
-            </button>
-          </Link>
-
-          <Link to="/items" className="">
-            <button
-              onClick={() => setActive("items")}
-              className={`
-                w-full flex gap-2 items-center mt-1 px-3 py-2 text-sm font-medium rounded-md
-                ${
-                  active === "items"
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                }
-              `}
-            >
-              <Users className="mr-4 h-4 w-4" />
-              Items
-            </button>
-          </Link>
-
-          <Link to="/rooms" className="">
-            <button
-              onClick={() => setActive("rooms")}
-              className={`
-                w-full flex gap-2 items-center mt-1 px-3 py-2 text-sm font-medium rounded-md
-                ${
-                  active === "rooms"
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                }
-              `}
-            >
-              <Users className="mr-4 h-4 w-4" />
-              Rooms
-            </button>
-          </Link>
+          {navItems.map((item) => (
+            <Link key={item.name} to={item.path}>
+              <button
+                className={`
+                  w-full flex gap-3 items-center px-3 py-2 text-sm font-medium rounded-md transition
+                  ${
+                    active === item.name
+                      ? "bg-red-100 text-red-700 shadow-inner"
+                      : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  }
+                `}
+              >
+                <span
+                  className={`flex items-center justify-center ${
+                    active === item.name ? "text-red-600" : "text-gray-500"
+                  }`}
+                >
+                  {item.icon}
+                </span>
+                {item.label}
+              </button>
+            </Link>
+          ))}
         </ul>
       </nav>
 
-      {/* Logout */}
       <div className="absolute bottom-0 w-64 p-4 border-t border-gray-200">
         <button
-          onClick={() => setActive("logout")}
-          className="w-full gap-2 flex items-center px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+          onClick={handleLogout}
+          className="w-full flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md text-gray-700 hover:bg-red-100 hover:text-red-700 transition"
         >
-          <LogOut className="mr-4 h-4 w-4" />
-          Logout
+          <LogOut className="h-5 w-5" />
+          تسجيل الخروج
         </button>
       </div>
     </div>

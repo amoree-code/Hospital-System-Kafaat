@@ -13,37 +13,33 @@ import {
 import { Edit } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "../ui/textarea";
 import { useAxios } from "@/hooks/useAxios";
+import FloorSelect from "./FloorSelect";
 
-export default function UpdateItems({ item, refetch }) {
+export default function UpdateRooms({ room, refetch }) {
   const axios = useAxios();
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
-    roomId: "",
+    floorId: "",
     name: "",
-    qrCode: "",
-    quantity: 0,
-    type: "",
-    price: 0,
-    imgUrl: "",
+    roomNumber: "",
+    managerName: "",
     note: "",
+    numberOfBeds: 0,
   });
 
   useEffect(() => {
-    if (item) {
+    if (room) {
       setFormData({
-        roomId: item.roomId || "",
-        name: item.name || "",
-        qrCode: item.qrCode || "",
-        quantity: item.quantity || 0,
-        type: item.type || "",
-        price: item.price || 0,
-        imgUrl: item.imgUrl || "",
-        note: item.note || "",
+        floorId: room.floorId || "",
+        name: room.name || "",
+        roomNumber: room.roomNumber || "",
+        managerName: room.managerName || "",
+        note: room.note || "",
+        numberOfBeds: room.numberOfBeds || 0,
       });
     }
-  }, [item]);
+  }, [room]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,11 +49,11 @@ export default function UpdateItems({ item, refetch }) {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/api/item/${item.id}`, formData);
-      if (refetch) refetch();
+      await axios.put(`/api/room/${room.id}`, formData);
+      await refetch();
       setOpen(false);
     } catch (error) {
-      console.error("❌ Failed to update item:", error);
+      console.error("❌ Failed to update room:", error);
     }
   };
 
@@ -69,17 +65,38 @@ export default function UpdateItems({ item, refetch }) {
         </button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[600px]" style={{ direction: "rtl" }}>
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>تحديث بيانات العنصر</DialogTitle>
+          <DialogTitle>تحديث بيانات الغرفة</DialogTitle>
           <DialogDescription>
-            يمكنك تعديل بيانات العنصر ثم الضغط على زر حفظ.
+            يمكنك تعديل بيانات الغرفة ثم الضغط على زر حفظ.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleUpdate} className="grid gap-4 mt-2">
           <div className="grid gap-2">
-            <Label htmlFor="name">اسم العنصر</Label>
+            <Label htmlFor="floorId">اختر الطابق</Label>
+            <FloorSelect
+              value={formData.floorId}
+              onChange={(value) =>
+                setFormData((prev) => ({ ...prev, floorId: value }))
+              }
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="roomNumber">رقم الغرفة</Label>
+            <Input
+              id="roomNumber"
+              name="roomNumber"
+              value={formData.roomNumber}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="name">اسم الغرفة</Label>
             <Input
               id="name"
               name="name"
@@ -90,49 +107,35 @@ export default function UpdateItems({ item, refetch }) {
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="type">نوع العنصر</Label>
+            <Label htmlFor="managerName">اسم المدير</Label>
             <Input
-              id="type"
-              name="type"
-              value={formData.type}
+              id="managerName"
+              name="managerName"
+              value={formData.managerName}
               onChange={handleChange}
-              required
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="quantity">العدد</Label>
+            <Label htmlFor="numberOfBeds">عدد الأسرة</Label>
             <Input
-              id="quantity"
-              name="quantity"
+              id="numberOfBeds"
+              name="numberOfBeds"
               type="number"
-              value={formData.quantity}
+              value={formData.numberOfBeds}
               onChange={handleChange}
-              required
             />
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="price">السعر</Label>
-            <Input
-              id="price"
-              name="price"
-              type="number"
-              value={formData.price}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* <div className="grid gap-2">
             <Label htmlFor="note">الملاحظات</Label>
-            <Textarea
+            <Input
               id="note"
               name="note"
               value={formData.note}
               onChange={handleChange}
             />
-          </div> */}
+          </div>
 
           <DialogFooter>
             <DialogClose asChild>
