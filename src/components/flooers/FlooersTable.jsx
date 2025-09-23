@@ -12,6 +12,8 @@ import Updatedflooers from "@/components/flooers/UpdatedFlooers";
 import Attachmentsflooers from "@/components/flooers/AttachmentsFlooers";
 
 function FlooersTable({ data, refetch }) {
+  const role = localStorage.getItem("role");
+
   return (
     <Table>
       <TableHeader>
@@ -28,6 +30,7 @@ function FlooersTable({ data, refetch }) {
           {/* <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
             الملاحظات
           </TableHead> */}
+
           <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
             الإجراءات
           </TableHead>
@@ -48,10 +51,15 @@ function FlooersTable({ data, refetch }) {
             {/* <TableCell className="px-6 py-4 text-center">
               {floor.notes || "-"}
             </TableCell> */}
-            <TableCell className="px-6 py-4 text-center">
+
+            <TableCell className="px-6 py-4 text-center space-x-2">
               <div className="flex justify-center items-center gap-2">
-                <Updatedflooers floor={floor} refetch={refetch} />
-                <Deleteflooers id={floor.id} refetch={refetch} />
+                {role === "SuperAdmin" && (
+                  <>
+                    <Updatedflooers floor={floor} refetch={refetch} />
+                    <Deleteflooers floorId={floor.id} refetch={refetch} />
+                  </>
+                )}
                 <Attachmentsflooers id={floor.id} />
               </div>
             </TableCell>

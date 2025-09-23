@@ -1,42 +1,18 @@
 import React from "react";
-import { Home, Users, Shield, LogOut, FileText } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { getNavItems } from "@/routes/sidebar";
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const location = useLocation(); // Get current path
+  const location = useLocation();
+  const navItems = getNavItems();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     navigate("/login");
   };
-
-  const navItems = [
-    {
-      name: "flooers",
-      label: "الطوابق",
-      icon: <Home className="h-5 w-5" />,
-      path: "/",
-    },
-    {
-      name: "rooms",
-      label: "الغرف",
-      icon: <Users className="h-5 w-5" />,
-      path: "/rooms",
-    },
-    {
-      name: "items",
-      label: "الأصناف",
-      icon: <FileText className="h-5 w-5" />,
-      path: "/items",
-    },
-    {
-      name: "users",
-      label: "المستخدمون",
-      icon: <Shield className="h-5 w-5" />,
-      path: "/users",
-    },
-  ];
 
   const getActiveName = () => {
     if (location.pathname === "/") return "flooers";

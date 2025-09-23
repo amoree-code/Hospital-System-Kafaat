@@ -25,9 +25,10 @@ export default function Login() {
 
     try {
       const result = await axios.post("/api/auth/login", payload);
-      console.log(result.data);
       if (result?.data) {
         localStorage.setItem("token", result.data.data.token);
+        localStorage.setItem("role", result.data.data.role);
+
         navigate("/flooers");
       }
     } catch (error) {

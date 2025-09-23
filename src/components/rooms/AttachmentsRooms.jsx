@@ -5,7 +5,8 @@ import QRCode from "react-qr-code";
 function AttachmentsRooms({ id }) {
   const [open, setOpen] = useState(false);
 
-  const qrValue = `${window.location.origin}/rooms/${id}`;
+  const qrValue = `http://localhost:3000/rooms/${id}`;
+  // const qrValue = `https://hospital-system-kafaat.vercel.app/rooms/${id}`;
 
   return (
     <>

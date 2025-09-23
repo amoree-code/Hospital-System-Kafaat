@@ -8,6 +8,7 @@ import LoadingScreen from "@/components/LoadingScreen";
 import ItemTable from "@/components/items/ItemTable";
 
 export default function Items() {
+  const role = localStorage.getItem("role");
   const axios = useAxios();
 
   const fetchItems = async () => {
@@ -30,7 +31,7 @@ export default function Items() {
     <div className="p-14">
       <div className="flex justify-between items-center mb-3">
         <h1 className="text-2xl font-bold">إدارة العناصر</h1>
-        <AddItems refetch={refetch} />
+        {role === "SuperAdmin" && <AddItems refetch={refetch} />}
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">

@@ -108,6 +108,18 @@ export default function AddItems({ refetch }) {
           </div>
 
           <div className="grid gap-2">
+            <Label htmlFor="imgUrl">صورة العنصر</Label>
+            <Input
+              id="imgUrl"
+              name="imgUrl"
+              type="file"
+              value={formData.imgUrl}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="grid gap-2">
             <Label htmlFor="quantity">العدد</Label>
             <Input
               id="quantity"
@@ -125,7 +137,7 @@ export default function AddItems({ refetch }) {
               id="price"
               name="price"
               type="text" // نصي للسماح بالفواصل
-              value={formData.price.toLocaleString()} // عرض القيمة مع فواصل
+              value={formData.price.toLocaleString()}
               onChange={(e) => {
                 // إزالة أي فواصل قبل التحديث
                 const value = e.target.value.replace(/,/g, "");

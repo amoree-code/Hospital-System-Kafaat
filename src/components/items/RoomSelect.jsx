@@ -13,16 +13,11 @@ import { useFetchRooms } from "@/hooks/useFetchRooms";
 export default function RoomSelect({ value, onChange }) {
   const { fetchRooms } = useFetchRooms();
 
-  const {
-    data: rooms = [],
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: rooms = [], isError } = useQuery({
     queryKey: ["rooms"],
     queryFn: fetchRooms,
   });
 
-  if (isLoading) return <p>Loading rooms...</p>;
   if (isError) return <p>Failed to load rooms.</p>;
 
   return (

@@ -12,6 +12,7 @@ import UpdateRooms from "./UpdateRooms";
 import AttachmentsRooms from "./AttachmentsRooms";
 
 function TableRooms({ data, refetch }) {
+  const role = localStorage.getItem("role");
   return (
     <Table>
       <TableHeader>
@@ -56,8 +57,12 @@ function TableRooms({ data, refetch }) {
             </TableCell> */}
             <TableCell className="px-6 py-4 text-center">
               <div className="flex justify-center items-center gap-2">
-                <UpdateRooms room={room} refetch={refetch} />
-                <DeleteRooms id={room.id} refetch={refetch} />
+                {role === "SuperAdmin" && (
+                  <>
+                    <UpdateRooms room={room} refetch={refetch} />
+                    <DeleteRooms id={room.id} refetch={refetch} />
+                  </>
+                )}
                 <AttachmentsRooms id={room.id} />
               </div>
             </TableCell>

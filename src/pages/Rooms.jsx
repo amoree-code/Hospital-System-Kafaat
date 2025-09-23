@@ -6,6 +6,7 @@ import TableRooms from "@/components/rooms/TableRooms";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export default function Rooms() {
+  const role = localStorage.getItem("role");
   const axios = useAxios();
 
   const fetchRooms = async () => {
@@ -28,7 +29,8 @@ export default function Rooms() {
     <div className="p-14">
       <div className="flex justify-between items-center mb-3">
         <h1 className="text-2xl font-bold">إدارة الغرف</h1>
-        <AddRooms refetch={refetch} />
+
+        {role === "SuperAdmin" && <AddRooms refetch={refetch} />}
       </div>
 
       <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">

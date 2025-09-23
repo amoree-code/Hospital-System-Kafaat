@@ -1,11 +1,10 @@
 import { Paperclip, X } from "lucide-react";
 import React, { useState } from "react";
 import QRCode from "react-qr-code";
+import { AppConfig } from "@/config/config";
 
 function AttachmentsFlooers({ id }) {
   const [open, setOpen] = useState(false);
-
-  const qrValue = `${window.location.origin}/flooers/${id}`;
 
   return (
     <>
@@ -26,9 +25,8 @@ function AttachmentsFlooers({ id }) {
             >
               <X size={20} />
             </button>
-
             <h2 className="text-xl font-bold mb-4 text-center">QR Code</h2>
-            <QRCode value={qrValue} size={200} />
+            <QRCode value={`${AppConfig.baseUrl}/flooers/${id}`} />
           </div>
         </div>
       )}

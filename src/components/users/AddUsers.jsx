@@ -91,7 +91,11 @@ export default function AddUsers({ refetch }) {
         <form onSubmit={handleSubmit(handleAdd)} className="grid gap-4 mt-2">
           <div className="grid gap-2">
             <Label htmlFor="name">اسم المستخدم</Label>
-            <Input id="name" {...register("name", { required: true })} />
+            <Input
+              id="name"
+              {...register("name", { required: true })}
+              placeholder="مثال: أحمد علي"
+            />
             {errors.name && (
               <span className="text-red-500 text-sm">هذا الحقل مطلوب</span>
             )}
@@ -102,6 +106,7 @@ export default function AddUsers({ refetch }) {
             <Input
               id="email"
               type="email"
+              placeholder="مثال: ahmad@example.com"
               {...register("email", { required: true })}
             />
             {errors.email && (
@@ -113,6 +118,7 @@ export default function AddUsers({ refetch }) {
             <Input
               type="hidden"
               id="phone"
+              placeholder="مثال: 07701234567"
               {...register("phone", { required: true })}
             />
           </div>
@@ -122,6 +128,7 @@ export default function AddUsers({ refetch }) {
             <Input
               id="password"
               type="password"
+              placeholder="أدخل كلمة المرور"
               {...register("password", { required: true })}
             />
             {errors.password && (
@@ -136,15 +143,14 @@ export default function AddUsers({ refetch }) {
               control={control}
               render={({ field }) => (
                 <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="اختر نوع الحساب" />
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a fruit" />
                   </SelectTrigger>
+
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="0">مدير النظام</SelectItem>
-                      <SelectItem value="1">مشرف</SelectItem>
-                      <SelectItem value="2">مدير قسم</SelectItem>
-                      <SelectItem value="3">مستخدم</SelectItem>
+                      <SelectItem value="1">مستخدم</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

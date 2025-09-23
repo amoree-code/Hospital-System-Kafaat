@@ -11,6 +11,7 @@ import DeleteItems from "@/components/items/DeleteItems";
 import UpdateItems from "@/components/items/UpdateItems";
 
 function ItemTable({ data, refetch }) {
+  const role = localStorage.getItem("role");
   return (
     <Table>
       <TableHeader>
@@ -31,9 +32,12 @@ function ItemTable({ data, refetch }) {
           {/* <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
             الملاحظات
           </TableHead> */}
-          <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
-            الإجراءات
-          </TableHead>
+
+          {role === "SuperAdmin" && (
+            <TableHead className="px-6 py-4 text-center font-medium text-gray-700">
+              الإجراءات
+            </TableHead>
+          )}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -52,12 +56,16 @@ function ItemTable({ data, refetch }) {
             {/* <TableCell className="px-6 py-4 text-center">
               {item.note || "-"}
             </TableCell> */}
-            <TableCell className="px-6 py-4 text-center">
-              <div className="flex justify-center items-center gap-2">
-                <UpdateItems item={item} refetch={refetch} />
-                <DeleteItems id={item.id} refetch={refetch} />
-              </div>
-            </TableCell>
+            {role === "SuperAdmin" && (
+              <>
+                <TableCell className="px-6 py-4 text-center">
+                  <div className="flex justify-center items-center gap-2">
+                    <UpdateItems item={item} refetch={refetch} />
+                    <DeleteItems id={item.id} refetch={refetch} />
+                  </div>
+                </TableCell>
+              </>
+            )}
           </TableRow>
         ))}
       </TableBody>
