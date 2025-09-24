@@ -10,17 +10,21 @@ import QrRooms from "./pages/QrRooms";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import LoadingScreen from "./components/LoadingScreen";
 import QrItems from "./pages/QrItems";
+import NotFound from "./pages/NotFound";
+import useWindowSize from "@/hooks/useWindowSize";
 
 function App() {
   const location = useLocation();
   const queryClient = new QueryClient();
   const token = localStorage.getItem("token");
+  const width = useWindowSize();
 
   const hideSidebarPaths = ["/login"];
   const hideSidebar =
     hideSidebarPaths.includes(location.pathname) ||
     location.pathname.startsWith("/flooers/") ||
-    location.pathname.startsWith("/rooms/");
+    location.pathname.startsWith("/rooms/") ||
+    width < 772;
 
   return (
     <Suspense fallback={<LoadingScreen />}>
@@ -41,11 +45,13 @@ function App() {
                     path="/"
                     element={<Navigate to="/flooers" replace />}
                   />
+                  <Route path="*" element={<NotFound />} />
                 </>
               ) : (
                 <>
                   <Route path="/login" element={<Login />} />
                   <Route path="/" element={<Navigate to="/login" replace />} />
+                  <Route path="*" element={<NotFound />} />
                 </>
               )}
             </Routes>

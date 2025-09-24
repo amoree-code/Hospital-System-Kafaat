@@ -1,14 +1,17 @@
 import { Paperclip, X, Download, Printer } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
 import { Button } from "../ui/button";
+import { AppConfig } from "@/config/config";
+import { useNavigate } from "react-router-dom";
 
 function AttachmentsRooms({ id }) {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [open, setOpen] = useState(false);
   const qrRef = useRef(null);
 
-  const qrValue = `http://localhost:3000/rooms/${id}`;
-  // const qrValue = `https://hospital-system-kafaat.vercel.app/rooms/${id}`;
+  const qrValue = `${AppConfig.baseUrl}/rooms/${id}`;
 
   const handleDownload = () => {
     const svg = qrRef.current.querySelector("svg");
@@ -42,19 +45,25 @@ function AttachmentsRooms({ id }) {
     const printContent = qrRef.current.innerHTML;
     const originalContent = document.body.innerHTML;
 
-    // استبدل محتوى الصفحة مؤقتًا بمحتوى QR
     document.body.innerHTML = `
-    <div style="display:flex;justify-content:center;align-items:center;height:100vh;">
-      ${printContent}
-    </div>
-  `;
+      <div style="display:flex;justify-content:center;align-items:center;height:100vh;">
+        ${printContent}
+      </div>
+    `;
 
     window.print();
 
-    // رجع الصفحة لحالتها الأصلية بعد الطباعة
     document.body.innerHTML = originalContent;
-    window.location.reload(); // لإعادة تحميل React
+    window.location.reload();
   };
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      setOpen(false);
+      return;
+    }
+  }, [token, navigate]);
 
   return (
     <>

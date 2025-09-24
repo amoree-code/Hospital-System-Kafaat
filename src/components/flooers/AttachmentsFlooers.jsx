@@ -1,14 +1,18 @@
 import { Paperclip, X, Download, Printer } from "lucide-react";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import QRCode from "react-qr-code";
 import { Button } from "../ui/button";
+import { AppConfig } from "@/config/config";
+import { useNavigate } from "react-router-dom";
 
 function AttachmentsFlooers({ id }) {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   const [open, setOpen] = useState(false);
   const qrRef = useRef(null);
 
-  const qrValue = `http://localhost:3000/rooms/${id}`;
-  // const qrValue = `https://hospital-system-kafaat.vercel.app/rooms/${id}`;
+  const qrValue = `${AppConfig.baseUrl}/flooers/${id}`;
 
   const handleDownload = () => {
     const svg = qrRef.current.querySelector("svg");
@@ -55,6 +59,14 @@ function AttachmentsFlooers({ id }) {
     document.body.innerHTML = originalContent;
     window.location.reload(); // لإعادة تحميل React
   };
+
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      setOpen(false);
+      return;
+    }
+  }, [token, navigate]);
 
   return (
     <>
