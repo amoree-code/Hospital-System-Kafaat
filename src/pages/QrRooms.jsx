@@ -38,28 +38,38 @@ function QrRooms() {
   if (error) return <p className="p-4 text-red-500 text-center">{error}</p>;
   if (!floor) return null;
 
+  // ترتيب الغرف بحيث أحدث غرفة تظهر أولًا
+  const rooms = floor.rooms?.slice().reverse();
+
   return (
     <div className="flex justify-center items-start p-6">
-      <div className="w-full max-w-5xl space-y-6">
+      <div className="w-full max-w-6xl space-y-6">
         {/* معلومات الطابق */}
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="text-center">{floor.floorName}</CardTitle>
-            <CardDescription className="text-center">
+            <CardTitle className="text-center text-2xl font-bold">
+              {floor.floorName}
+            </CardTitle>
+            <CardDescription className="text-center text-gray-600">
               {floor.floorDescription} — رقم الطابق: {floor.floorNumber}
             </CardDescription>
           </CardHeader>
         </Card>
 
         {/* الغرف */}
-        <h2 className="text-xl font-semibold text-center">الغرف</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-          {floor.rooms?.map((room) => (
-            <Card key={room.id} className="w-72 bg-gray-50 shadow-sm">
+        <h2 className="text-xl font-semibold text-center mt-4 mb-2">الغرف</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {rooms?.map((room) => (
+            <Card
+              key={room.id}
+              className="flex flex-col justify-between min-h-[200px] w-full bg-gray-50 shadow-md hover:shadow-lg transition"
+            >
               <CardHeader>
-                <CardTitle>{room.name}</CardTitle>
+                <CardTitle className="text-lg font-medium">
+                  {room.name}
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-1">
+              <CardContent className="flex-1 flex flex-col justify-between space-y-1">
                 <p>
                   <strong>المدير:</strong> {room.managerName}
                 </p>

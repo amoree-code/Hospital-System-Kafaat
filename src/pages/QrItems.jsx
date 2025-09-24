@@ -38,33 +38,41 @@ function QrItems() {
   if (error) return <p className="p-4 text-red-500 text-center">{error}</p>;
   if (!room) return null;
 
+  // أحدث العناصر تظهر أولًا
+  const items = room.items?.slice().reverse();
+
   return (
     <div className="flex justify-center items-start p-6">
-      <div className="w-full max-w-5xl space-y-6">
+      <div className="w-full max-w-6xl space-y-6">
         {/* بطاقة الغرفة */}
         <Card className="w-full">
           <CardHeader>
-            <CardTitle className="text-center">
+            <CardTitle className="text-center text-2xl font-bold">
               الغرفة: {room.name} ( رقم {room.roomNumber} )
             </CardTitle>
-            {/* <CardDescription className="text-center">
+            <CardDescription className="text-center text-gray-600">
               عدد الأسرة: {room.numberOfBeds} — {room.note || "بدون ملاحظات"}
-            </CardDescription> */}
+            </CardDescription>
           </CardHeader>
         </Card>
 
         {/* العناصر التابعة للغرفة */}
         <h2 className="text-xl font-semibold text-center">العناصر</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-          {room.items?.map((item) => (
-            <Card key={item.id} className="w-72 bg-gray-50 shadow-sm">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {items?.map((item) => (
+            <Card
+              key={item.id}
+              className="flex flex-col justify-between min-h-[280px] w-full bg-gray-50 shadow-md hover:shadow-lg transition"
+            >
               <CardHeader>
-                <CardTitle>{item.name}</CardTitle>
+                <CardTitle className="text-lg font-medium">
+                  {item.name}
+                </CardTitle>
                 <CardDescription>
                   النوع: {item.type} — الكمية: {item.quantity}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="flex-1 flex flex-col justify-between space-y-2">
                 <p>
                   <strong>السعر:</strong> {item.price} د.ع
                 </p>

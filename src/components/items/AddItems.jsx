@@ -36,9 +36,31 @@ export default function AddItems({ refetch }) {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const addFile = async (e) => {
+    try {
+      const file = e.target.files[0];
+      const formDataFile = new FormData();
+      formDataFile.append("file", file);
+
+      const result = await axios.post("/api/attachments", formDataFile, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      // Save returned URL in state
+      setFormData((prev) => ({ ...prev, imgUrl: result.data.data }));
+    } catch (error) {
+      console.error("❌ Failed to upload file:", error);
+    }
+  };
+
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
+      if (!formData.imgUrl) {
+        alert("Please upload an image first!");
+        return;
+      }
+
       await axios.post("/api/item", formData);
       setFormData({
         roomId: "",
@@ -47,7 +69,7 @@ export default function AddItems({ refetch }) {
         quantity: 0,
         type: "",
         price: 0,
-        imgUrl: "",
+        imgUrl: "", // reset
         note: "",
       });
       setOpen(false);
@@ -113,8 +135,8 @@ export default function AddItems({ refetch }) {
               id="imgUrl"
               name="imgUrl"
               type="file"
-              value={formData.imgUrl}
-              onChange={handleChange}
+              // value={formData.imgUrl}
+              onChange={addFile}
               required
             />
           </div>

@@ -57,7 +57,7 @@ function FlooersTable({ data, refetch }) {
                 {role === "SuperAdmin" && (
                   <>
                     <Updatedflooers floor={floor} refetch={refetch} />
-                    <Deleteflooers floorId={floor.id} refetch={refetch} />
+                    <Deleteflooers id={floor.id} refetch={refetch} />
                   </>
                 )}
                 <Attachmentsflooers id={floor.id} />

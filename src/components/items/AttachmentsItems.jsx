@@ -19,65 +19,23 @@ export default function AttachmentsItems() {
   const handlePrint = () => {
     const canvas = qrRef.current?.querySelector("canvas");
     if (canvas) {
-      const printWindow = window.open("", "_blank");
-      const img = canvas.toDataURL();
+      const img = canvas.toDataURL("image/png");
+      const originalContent = document.body.innerHTML;
 
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>طباعة QR Code</title>
-            <style>
-              body {
-                margin: 0;
-                padding: 40px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                font-family: Arial, sans-serif;
-              }
-              .qr-container {
-                text-align: center;
-                padding: 30px;
-                border: 2px dashed #e5e7eb;
-                border-radius: 12px;
-                background: white;
-              }
-              .qr-title {
-                font-size: 24px;
-                font-weight: bold;
-                color: #1f2937;
-                margin-bottom: 20px;
-              }
-              .qr-image {
-                margin: 20px 0;
-              }
-              .qr-url {
-                font-size: 14px;
-                color: #6b7280;
-                margin-top: 15px;
-                word-break: break-all;
-              }
-              @media print {
-                body { padding: 20px; }
-                .qr-container { border: 1px solid #000; }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="qr-container">
-              <div class="qr-title">QR Code</div>
-              <div class="qr-image">
-                <img src="${img}" alt="QR Code" style="width: 200px; height: 200px;" />
-              </div>
-              <div class="qr-url">https://example.com</div>
-            </div>
-          </body>
-        </html>
-      `);
+      // عرض QR للطباعة مؤقتًا بنفس الصفحة
+      document.body.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+          <h2 style="font-size:24px;margin-bottom:20px;">QR Code</h2>
+          <img src="${img}" alt="QR Code" style="width:220px;height:220px;"/>
+          <p style="margin-top:15px;font-size:14px;color:#555;">https://example.com</p>
+        </div>
+      `;
 
-      printWindow.document.close();
-      printWindow.focus();
-      setTimeout(() => printWindow.print(), 500);
+      window.print();
+
+      // إعادة محتوى الصفحة بعد الطباعة
+      document.body.innerHTML = originalContent;
+      window.location.reload();
     }
   };
 

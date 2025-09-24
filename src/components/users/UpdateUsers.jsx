@@ -109,9 +109,7 @@ export default function UpdateUsers({ user, refetch }) {
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="0">مدير النظام</SelectItem>
-                      <SelectItem value="1">مشرف</SelectItem>
-                      <SelectItem value="2">مدير قسم</SelectItem>
-                      <SelectItem value="3">مستخدم</SelectItem>
+                      <SelectItem value="1">مستخدم</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>

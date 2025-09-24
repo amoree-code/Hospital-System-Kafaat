@@ -13,16 +13,11 @@ import { useFetchFloors } from "@/hooks/useFetchFloors";
 export default function FloorSelect({ value, onChange }) {
   const { fetchFloors } = useFetchFloors();
 
-  const {
-    data: floors = [],
-    isLoading,
-    isError,
-  } = useQuery({
+  const { data: floors = [], isError } = useQuery({
     queryKey: ["floors"],
     queryFn: fetchFloors,
   });
 
-  if (isLoading) return <p>Loading floors...</p>;
   if (isError) return <p>Failed to load floors.</p>;
 
   return (
@@ -32,7 +27,7 @@ export default function FloorSelect({ value, onChange }) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {floors.data.items.map((floor) => (
+          {floors?.data?.items.map((floor) => (
             <SelectItem key={floor.id} value={floor.id}>
               {floor.floorName}
             </SelectItem>
