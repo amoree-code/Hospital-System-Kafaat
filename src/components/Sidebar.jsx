@@ -24,9 +24,7 @@ export default function Sidebar() {
   return (
     <div className="w-64 h-screen border-r border-gray-200 bg-white relative shadow-lg">
       <div className="p-6 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">
-          نظام مستشفى الكفاة
-        </h2>
+        <h2 className="text-lg font-semibold text-gray-900">لوحة التحكم</h2>
       </div>
 
       <nav className="p-4">
