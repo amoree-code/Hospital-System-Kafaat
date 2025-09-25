@@ -10,6 +10,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import LoadingScreen from "@/components/LoadingScreen";
 
 function QrRooms() {
   const { id } = useParams();
@@ -34,11 +35,10 @@ function QrRooms() {
       });
   }, [id]);
 
-  if (loading) return <p className="p-4 text-center">جاري التحميل...</p>;
+  if (loading) return <LoadingScreen />;
   if (error) return <p className="p-4 text-red-500 text-center">{error}</p>;
   if (!floor) return null;
 
-  // ترتيب الغرف بحيث أحدث غرفة تظهر أولًا
   const rooms = floor.rooms?.slice().reverse();
 
   return (
@@ -48,10 +48,13 @@ function QrRooms() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-center text-2xl font-bold">
-              {floor.floorName}
+              اسم الطابق : {floor.floorName}
             </CardTitle>
             <CardDescription className="text-center text-gray-600">
-              {floor.floorDescription} — رقم الطابق: {floor.floorNumber}
+              رقم الطابق: {floor.floorNumber}
+            </CardDescription>
+            <CardDescription className="text-center text-gray-600">
+              وصف الطابق: {floor.floorDescription}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -66,24 +69,27 @@ function QrRooms() {
             >
               <CardHeader>
                 <CardTitle className="text-lg font-medium">
-                  {room.name}
+                  اسم الغرفة : {room.name}
                 </CardTitle>
+                <CardDescription className="text-gray-600">
+                  رقم الغرفة : {room.roomNumber}
+                </CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between space-y-1">
                 <p>
-                  <strong>المدير:</strong> {room.managerName}
+                  <strong>المسؤولة عنها :</strong> {room.managerName}
                 </p>
-                <p>
+                {/* <p>
                   <strong>عدد الأسرة:</strong> {room.numberOfBeds}
-                </p>
+                </p> */}
                 <p>
-                  <strong>ملاحظة:</strong> {room.note || "-"}
+                  <strong>ملاحظة :</strong> {room.note || "بدون ملاحظات"}
                 </p>
               </CardContent>
               <CardFooter>
-                <Button size="sm" className="w-full">
+                {/* <Button size="sm" className="w-full">
                   عرض التفاصيل
-                </Button>
+                </Button> */}
               </CardFooter>
             </Card>
           ))}

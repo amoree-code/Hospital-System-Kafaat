@@ -10,6 +10,7 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import LoadingScreen from "@/components/LoadingScreen";
 
 function QrItems() {
   const { id } = useParams();
@@ -34,11 +35,10 @@ function QrItems() {
       });
   }, [id]);
 
-  if (loading) return <p className="p-4 text-center">جاري التحميل...</p>;
+  if (loading) return <LoadingScreen />;
   if (error) return <p className="p-4 text-red-500 text-center">{error}</p>;
   if (!room) return null;
 
-  // أحدث العناصر تظهر أولًا
   const items = room.items?.slice().reverse();
 
   return (
@@ -48,10 +48,14 @@ function QrItems() {
         <Card className="w-full">
           <CardHeader>
             <CardTitle className="text-center text-2xl font-bold">
-              الغرفة: {room.name} ( رقم {room.roomNumber} )
+              المسؤولة عن الغرف : {room.managerName}
+              {room.floor?.floorNumber}
             </CardTitle>
             <CardDescription className="text-center text-gray-600">
-              عدد الأسرة: {room.numberOfBeds} — {room.note || "بدون ملاحظات"}
+              رقم الغرفة : {room.name} - اسم الغرفة : {room.roomNumber}
+            </CardDescription>
+            <CardDescription className="text-center  *text-gray-600">
+              {room.note || "بدون ملاحظات"}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -68,16 +72,15 @@ function QrItems() {
                 <CardTitle className="text-lg font-medium">
                   {item.name}
                 </CardTitle>
-                <CardDescription>
-                  النوع: {item.type} — الكمية: {item.quantity}
-                </CardDescription>
+                <CardDescription>النوع: {item.type}</CardDescription>
+                <CardDescription>الكمية: {item.quantity}</CardDescription>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col justify-between space-y-2">
                 <p>
                   <strong>السعر:</strong> {item.price} د.ع
                 </p>
                 <p>
-                  <strong>ملاحظة:</strong> {item.note || "-"}
+                  <strong>ملاحظة :</strong> {item.note || "بدون ملاحظات"}
                 </p>
                 {item.imgUrl && (
                   <img
@@ -88,9 +91,9 @@ function QrItems() {
                 )}
               </CardContent>
               <CardFooter>
-                <Button size="sm" className="w-full">
+                {/* <Button size="sm" className="w-full">
                   عرض التفاصيل
-                </Button>
+                </Button> */}
               </CardFooter>
             </Card>
           ))}

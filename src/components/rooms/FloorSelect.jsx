@@ -23,7 +23,7 @@ export default function FloorSelect({ value, onChange }) {
   return (
     <Select value={value} onValueChange={onChange}>
       <SelectTrigger className="w-full">
-        <SelectValue />
+        <SelectValue placeholder="اختر الطابق" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
