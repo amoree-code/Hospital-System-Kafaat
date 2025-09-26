@@ -11,16 +11,22 @@ import {
 } from "@/components/ui/dialog";
 import { useAxios } from "@/hooks/useAxios";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
 
 export default function DeleteItems({ id, refetch }) {
   const axios = useAxios();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleDelete = async () => {
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
     try {
       await axios.delete(`/api/item/${id}`);
       refetch();
     } catch (error) {
       console.error("Error deleting item  :", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -38,11 +44,14 @@ export default function DeleteItems({ id, refetch }) {
             هل أنت متأكد من حذف المستخدم؟ هذا الإجراء لا يمكن التراجع عنه.
           </DialogDescription>
         </DialogHeader>
+
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="secondary">إلغاء</Button>
           </DialogClose>
-          <Button onClick={handleDelete}>حذف</Button>
+          <Button onClick={handleDelete} disabled={isLoading}>
+            {isLoading ? "جاري الحذف..." : "حذف"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -13,13 +13,13 @@ import {
 import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "../ui/textarea";
-import RoomSelect from "./RoomSelect";
 import { useAxios } from "@/hooks/useAxios";
+import RoomSelect from "./RoomSelect";
 
 export default function AddItems({ refetch }) {
   const axios = useAxios();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     roomId: "",
     name: "",
@@ -37,6 +37,7 @@ export default function AddItems({ refetch }) {
   };
 
   const addFile = async (e) => {
+    e.preventDefault();
     try {
       const file = e.target.files[0];
       const formDataFile = new FormData();
@@ -46,7 +47,6 @@ export default function AddItems({ refetch }) {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // Save returned URL in state
       setFormData((prev) => ({ ...prev, imgUrl: result.data.data }));
     } catch (error) {
       console.error("❌ Failed to upload file:", error);
@@ -55,6 +55,7 @@ export default function AddItems({ refetch }) {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       if (!formData.imgUrl) {
         alert("Please upload an image first!");
@@ -69,13 +70,15 @@ export default function AddItems({ refetch }) {
         quantity: 0,
         type: "",
         price: 0,
-        imgUrl: "", // reset
+        imgUrl: "",
         note: "",
       });
       setOpen(false);
       if (refetch) refetch();
     } catch (error) {
       console.error("❌ Failed to add item:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -111,6 +114,7 @@ export default function AddItems({ refetch }) {
             <Label htmlFor="name">اسم العنصر</Label>
             <Input
               id="name"
+              placeholder="أدخل اسم العنصر"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -123,6 +127,7 @@ export default function AddItems({ refetch }) {
             <Input
               id="type"
               name="type"
+              placeholder="أدخل نوع العنصر"
               value={formData.type}
               onChange={handleChange}
               required
@@ -146,6 +151,7 @@ export default function AddItems({ refetch }) {
             <Input
               id="quantity"
               name="quantity"
+              placeholder="أدخل العدد"
               type="number"
               value={formData.quantity}
               onChange={handleChange}
@@ -158,6 +164,7 @@ export default function AddItems({ refetch }) {
             <Input
               id="price"
               name="price"
+              placeholder="أدخل السعر"
               type="text" // نصي للسماح بالفواصل
               value={formData.price.toLocaleString()}
               onChange={(e) => {
@@ -188,7 +195,9 @@ export default function AddItems({ refetch }) {
                 إلغاء
               </Button>
             </DialogClose>
-            <Button type="submit">إضافة</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "جاري الحفظ..." : "إضافة"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

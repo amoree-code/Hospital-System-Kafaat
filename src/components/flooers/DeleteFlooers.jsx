@@ -11,16 +11,22 @@ import {
 } from "@/components/ui/dialog";
 import { useAxios } from "@/hooks/useAxios";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
 
 export default function Deleteflooers({ id, refetch }) {
   const axios = useAxios();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleDelete = async () => {
+    setIsLoading(true);
     try {
       await axios.delete(`/api/floor/${id}`);
       refetch();
     } catch (error) {
       console.error("Error deleting floor:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -41,7 +47,9 @@ export default function Deleteflooers({ id, refetch }) {
           <DialogClose asChild>
             <Button variant="secondary">إلغاء</Button>
           </DialogClose>
-          <Button onClick={handleDelete}>حذف</Button>
+          <Button onClick={handleDelete} disabled={isLoading}>
+            {isLoading ? "جاري الحذف..." : "حذف"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

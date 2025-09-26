@@ -19,6 +19,7 @@ import FloorSelect from "./FloorSelect";
 export default function UpdateRooms({ room, refetch }) {
   const axios = useAxios();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     floorId: "",
     name: "",
@@ -48,12 +49,15 @@ export default function UpdateRooms({ room, refetch }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await axios.put(`/api/room/${room.id}`, formData);
       await refetch();
       setOpen(false);
     } catch (error) {
       console.error("❌ Failed to update room:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -89,6 +93,7 @@ export default function UpdateRooms({ room, refetch }) {
             <Input
               id="roomNumber"
               name="roomNumber"
+              placeholder="مثال: 101"
               value={formData.roomNumber}
               onChange={handleChange}
               required
@@ -99,6 +104,7 @@ export default function UpdateRooms({ room, refetch }) {
             <Label htmlFor="name">اسم الغرفة</Label>
             <Input
               id="name"
+              placeholder="أدخل اسم الغرفة"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -110,6 +116,7 @@ export default function UpdateRooms({ room, refetch }) {
             <Label htmlFor="managerName">اسم المدير</Label>
             <Input
               id="managerName"
+              placeholder="أدخل اسم المدير"
               name="managerName"
               value={formData.managerName}
               onChange={handleChange}
@@ -139,11 +146,11 @@ export default function UpdateRooms({ room, refetch }) {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary" type="button">
-                إلغاء
-              </Button>
+              <Button variant="secondary">إلغاء</Button>
             </DialogClose>
-            <Button type="submit">حفظ</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "جاري الحفظ..." : "حفظ"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

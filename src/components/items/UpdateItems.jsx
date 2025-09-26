@@ -19,6 +19,7 @@ import { useAxios } from "@/hooks/useAxios";
 export default function UpdateItems({ item, refetch }) {
   const axios = useAxios();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     roomId: "",
     name: "",
@@ -52,12 +53,15 @@ export default function UpdateItems({ item, refetch }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await axios.put(`/api/item/${item.id}`, formData);
       if (refetch) refetch();
       setOpen(false);
     } catch (error) {
       console.error("❌ Failed to update item:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -82,6 +86,7 @@ export default function UpdateItems({ item, refetch }) {
             <Label htmlFor="name">اسم العنصر</Label>
             <Input
               id="name"
+              placeholder="أدخل اسم العنصر"
               name="name"
               value={formData.name}
               onChange={handleChange}
@@ -94,6 +99,7 @@ export default function UpdateItems({ item, refetch }) {
             <Input
               id="type"
               name="type"
+              placeholder="أدخل نوع العنصر"
               value={formData.type}
               onChange={handleChange}
               required
@@ -105,6 +111,7 @@ export default function UpdateItems({ item, refetch }) {
             <Input
               id="quantity"
               name="quantity"
+              placeholder="أدخل العدد"
               type="number"
               value={formData.quantity}
               onChange={handleChange}
@@ -117,6 +124,7 @@ export default function UpdateItems({ item, refetch }) {
             <Input
               id="price"
               name="price"
+              placeholder="أدخل السعر"
               type="number"
               value={formData.price}
               onChange={handleChange}
@@ -136,11 +144,11 @@ export default function UpdateItems({ item, refetch }) {
 
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="secondary" type="button">
-                إلغاء
-              </Button>
+              <Button variant="secondary">إلغاء</Button>
             </DialogClose>
-            <Button type="submit">حفظ</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "جاري الحفظ..." : "حفظ"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

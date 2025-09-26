@@ -144,7 +144,7 @@ export default function AddUsers({ refetch }) {
               render={({ field }) => (
                 <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a fruit" />
+                    <SelectValue placeholder="اختر نوع الحساب" />
                   </SelectTrigger>
 
                   <SelectContent>

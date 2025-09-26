@@ -19,7 +19,7 @@ import FloorSelect from "@/components/rooms/FloorSelect";
 export default function AddRooms({ refetch }) {
   const axios = useAxios();
   const [open, setOpen] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     floorId: "",
     name: "",
@@ -36,6 +36,14 @@ export default function AddRooms({ refetch }) {
 
   const handleAdd = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
+    if (!formData.floorId) {
+      alert("يرجى اختيار الطابق");
+      setIsLoading(false);
+      return;
+    }
+
     try {
       await axios.post("/api/room", formData);
       setFormData({
@@ -50,6 +58,8 @@ export default function AddRooms({ refetch }) {
       if (refetch) refetch();
     } catch (error) {
       console.error("❌ Error adding room:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -85,6 +95,7 @@ export default function AddRooms({ refetch }) {
             <Input
               id="roomNumber"
               name="roomNumber"
+              placeholder="أدخل رقم الغرفة"
               value={formData.roomNumber}
               onChange={handleChange}
               required
@@ -96,6 +107,7 @@ export default function AddRooms({ refetch }) {
             <Input
               id="name"
               name="name"
+              placeholder="أدخل اسم الغرفة"
               value={formData.name}
               onChange={handleChange}
               required
@@ -107,6 +119,7 @@ export default function AddRooms({ refetch }) {
             <Input
               id="managerName"
               name="managerName"
+              placeholder="أدخل اسم المدير"
               value={formData.managerName}
               onChange={handleChange}
             />
@@ -140,7 +153,9 @@ export default function AddRooms({ refetch }) {
                 إلغاء
               </Button>
             </DialogClose>
-            <Button type="submit">حفظ</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "جاري الحفظ..." : "حفظ"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

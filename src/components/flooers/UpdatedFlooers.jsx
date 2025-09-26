@@ -18,6 +18,7 @@ import { useAxios } from "@/hooks/useAxios";
 export default function Updatedflooers({ floor, refetch }) {
   const axios = useAxios();
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     floorNumber: floor.floorNumber,
     floorName: floor.floorName,
@@ -32,12 +33,15 @@ export default function Updatedflooers({ floor, refetch }) {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await axios.put(`/api/floor/${floor.id}`, formData);
       refetch();
       setOpen(false);
     } catch (error) {
       console.error("❌ فشل تحديث الطابق:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -62,6 +66,7 @@ export default function Updatedflooers({ floor, refetch }) {
               id="floorNumber"
               name="floorNumber"
               type="number"
+              placeholder="أدخل رقم الطابق"
               value={formData.floorNumber}
               onChange={handleChange}
             />
@@ -71,19 +76,23 @@ export default function Updatedflooers({ floor, refetch }) {
             <Input
               id="floorName"
               name="floorName"
+              placeholder="أدخل اسم الطابق"
               value={formData.floorName}
               onChange={handleChange}
             />
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="floorDescription">وصف الطابق</Label>
             <Input
               id="floorDescription"
               name="floorDescription"
+              placeholder="أدخل وصف الطابق"
               value={formData.floorDescription}
               onChange={handleChange}
             />
           </div>
+
           {/* <div className="grid gap-2">
             <Label htmlFor="notes">الملاحظات</Label>
             <Input
@@ -93,13 +102,16 @@ export default function Updatedflooers({ floor, refetch }) {
               onChange={handleChange}
             />
           </div> */}
+
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="secondary" type="button">
                 إلغاء
               </Button>
             </DialogClose>
-            <Button type="submit">حفظ</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "جاري الحفظ..." : "حفظ"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
