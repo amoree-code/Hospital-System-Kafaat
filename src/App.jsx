@@ -33,12 +33,14 @@ function App() {
           {token && !hideSidebar && <Sidebar />}
           <main className="flex-1 overflow-auto">
             <Routes>
+              {/* Public routes - No login required for QR code pages */}
+              <Route path="/flooers/:id" element={<QrRooms />} />
+              <Route path="/rooms/:id" element={<QrItems />} />
+
               {token ? (
                 <>
                   <Route path="/flooers" element={<Flooers />} />
-                  <Route path="/flooers/:id" element={<QrRooms />} />
                   <Route path="/rooms" element={<Rooms />} />
-                  <Route path="/rooms/:id" element={<QrItems />} />
                   <Route path="/items" element={<Items />} />
                   <Route path="/users" element={<Users />} />
                   <Route
